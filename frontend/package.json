@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "deepmerge": "^2.0.1",
+    "fs-extra": "^6.0.1",
     "geodist": "^0.2.1",
     "history": "^4.7.2",
     "localforage": "^1.5.3",
@@ -46,7 +47,7 @@
     "build": "cross-env NODE_ENV=production react-scripts build",
     "test": "react-scripts test --env=jsdom --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/index.js --collectCoverageFrom=!src/setupTests.js --collectCoverageFrom=!src/registerServiceWorker.js",
     "eject": "react-scripts eject",
-    "postbuild": "(rm -r ../web/public/static && cp -r build/static ../web/public/ && cp build/asset-manifest.json ../web/public/asset-manifest.json && cp build/favicon.ico ../web/public/favicon.ico && cp build/index.html ../web/resources/views/dashboard.blade.php && cp build/service-worker.js ../web/public/service-worker.js && cp build/manifest.json ../web/public/manifest.json)"
+    "postbuild": "node scripts/postbuild.js"
   },
   "devDependencies": {
     "cross-env": "^5.1.1",
