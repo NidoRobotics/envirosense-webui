@@ -28,17 +28,16 @@ class Session extends Model {
 
         Session::deleting(function($itm)
         {
+            //TODO: Revisar protocolo de borrado
             if($itm->bucket_id_end > 0)
             {
                 \App\Bucket::where('id','>=',$itm->bucket_id_start)->where('id','<=',$itm->bucket_id_end)->delete();
             }
         });
-        //TODO: Poner el evento delete borrar los elementos relacionados si existen (buckets entre bucket_id_start y bucket_id_end
     }
 
     public static function active()
     {
-        //TODO: usar bucket_id_end
        return self::where('bucket_id_end',0)->orderBy('created_at','desc')->first();
     }
 
@@ -85,13 +84,9 @@ class Session extends Model {
             $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
             $csv->setDelimiter(';');
             $csv->insertOne(['id','systime','magneticcompass','do','gpscompass','gpssnr','gpssats','lat_h','lat','long_h','long','sg','tds','s','is_valid','ec','gpstime','ph','orp','press','depthtotal','depthtosurface','depthtobottom','watertmp1','watertmp2','watertmp3']);
-
             //dd($buckets);
-
             $buckets->each(function($b) use($csv) {
-                //dd(count($b->toArray()),count(['id','magneticcompass','do','gpscompass','gpssnr','gpssats','lat_h','lat','long_h','long','sg','tds','s','is_valid','ec','time','ph','orp','press','depthtotal','depthtosurface','depthtobottom','watertmp1','watertmp2','watertmp3']));
                 $tmpline = $b->toArray();
-                //dd(print_r($tmpline));
                 foreach($tmpline as $key=>&$value)
                 {
                     if($key == 'time' && $value)
@@ -108,7 +103,7 @@ class Session extends Model {
                     {
                         $value = "-";
                     }
-                    //Cambiamos los . por , en los floats, si no el excel no funciona
+
                     if(is_numeric($value))
                     {
                         $value  = preg_replace('#\.#',',',$value);

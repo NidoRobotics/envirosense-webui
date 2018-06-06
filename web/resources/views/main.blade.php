@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ENVIROSENSE v0.0.1</title>
+    <title>ENVIROSENSE v{{env('PROJECT_VERSION')}}</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -63,7 +63,7 @@
 <body data-socketio="{{env('SOCKETIO_URL')}}" data-socketio-path="{{env('SOCKETIO_PATH','')}}">
 <div id="app" class="flex-center position-ref full-height">
     <div class="content">
-    <h1>ENVIROSENSE v0.0.1</h1>
+    <h1>ENVIROSENSE v{{env('PROJECT_VERSION')}}</h1>
     </div>
 </div>
 </body>

@@ -13,7 +13,6 @@
 $app->group(['prefix' => 'api'], function () use ($app) {
     //Operaciones sobre la sesion actual/futura
     $app->group(['prefix' => 'session'], function () use ($app) {
-
         //Indica si existe o no una sesion activa, si existe devuelve el objeto
         $app->get('active', function ()    {
             $response = ['status'=>false];
@@ -28,9 +27,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
         //Iniciar sesion
         //parametro nombre
         $app->post('start', function (\Illuminate\Http\Request $request)    {
-
             $name = $request->input('name','NONAME');
-
             //dd($name);
 
             $response = ['status'=>false];
@@ -42,7 +39,6 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             }
             else
             {
-                //TODO: Los id de bucket!!!!
                 $newSession = \App\Session::create(['title'=>$name]);
                 if($newSession)
                 {
@@ -126,11 +122,8 @@ $app->group(['prefix' => 'api'], function () use ($app) {
         });
     });
 
-
-
     //Listado de sesiones
     $app->get('sessions', function () {
-        //return response()->json(['status'=>true,'sessions'=>\App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get()->toArray()]);
         return response()->json(['status'=>true,'sessions'=>\App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get()->toArray()],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
     });
 });
