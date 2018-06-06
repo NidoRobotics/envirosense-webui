@@ -35,7 +35,7 @@
                     <td>{{$s->id}}</td>
                     <td>{{$s->title}}</td>
                     <td>{{$s->created_at->format('d/m/Y H:i')}}</td>
-                    <td>{{$s->bucket_id_end - $s->bucket_id_start}}</td>
+                    <td>{{1+($s->bucket_id_end - $s->bucket_id_start)}}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <a type="button" class="btn btn-default" href="/api/session/download/{{$s->id}}"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> CSV</a>
