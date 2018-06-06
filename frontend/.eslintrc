@@ -1,0 +1,23 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "allowImportExportEverywhere": true
+  },
+  "extends": ["airbnb", "prettier"],
+  "env": { "browser": true },
+  "plugins": ["react", "jsx-a11y"],
+  "rules": {
+    "react/jsx-filename-extension": 0,
+    "global-require": 0,
+    "import/no-extraneous-dependencies": 0,
+    "key-spacing": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "config/webpack.config.dev.js"
+      }
+    }
+  }
+}
