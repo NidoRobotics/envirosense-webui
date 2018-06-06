@@ -3,11 +3,11 @@
  */
 const fs = require('fs-extra')
 
-var public_dir_dest = '../../web/public/';
-var main_view_dest = '../../web/resources/views/dashboard.blade.php';
+var public_dir_dest = '../web/public/';
+var main_view_dest = '../web/resources/views/dashboard.blade.php';
 
 var folders = [
-    ['build/static',public_dir_dest],
+    ['build/static',public_dir_dest+'static'],
 ];
 
 var files = [
