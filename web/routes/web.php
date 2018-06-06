@@ -21,7 +21,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
                 $response['status'] = true;
                 $response['session'] = $activeSession->toArray();
             }
-            return response()->json($response,200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+            return response()->json($response,200,App\Libraries\Project::get_cors());
         });
 
         //Iniciar sesion
@@ -47,7 +47,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
                     $response['session'] = $newSession->toArray();
                 }
             }
-            return response()->json($response,200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+            return response()->json($response,200,App\Libraries\Project::get_cors());
         });
 
         //Terminar sesion
@@ -60,7 +60,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
                 \App\Session::endSession($id);
                 $res = true;
             }
-            return response()->json(['status'=>$res],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+            return response()->json(['status'=>$res],200,App\Libraries\Project::get_cors());
         });
 
         $app->post('data', function (\Illuminate\Http\Request $request)    {
@@ -68,9 +68,9 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             if($id && ($session = \App\Session::where('id',$id)->first()))
             {
                 $buckets = $session->getBuckets();
-                return response()->json(['status'=>true,'session'=>$session->toArray(),'buckets'=>$buckets->toArray()],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+                return response()->json(['status'=>true,'session'=>$session->toArray(),'buckets'=>$buckets->toArray()],200,App\Libraries\Project::get_cors());
             }
-            return response()->json(['status'=>false],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+            return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
 
         $app->get('download/{id}', function ($id)    {
@@ -89,7 +89,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
                 file_put_contents($fpath,$session->getCsv());
                 return response()->download($fpath,$fname,['Content-type' => 'text/csv'])->deleteFileAfterSend(true);
             }
-            return response()->json(['status'=>false],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+            return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
 
         $app->get('geojson/{id}', function ($id)    {
@@ -108,7 +108,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
                 file_put_contents($fpath,$session->getGeoJson());
                 return response()->download($fpath,$fname,['Content-type' => 'application/geo+json'])->deleteFileAfterSend(true);
             }
-            return response()->json(['status'=>false],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+            return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
 
         $app->post('delete', function (\Illuminate\Http\Request $request)    {
@@ -118,13 +118,13 @@ $app->group(['prefix' => 'api'], function () use ($app) {
                 $session->delete();
                 return response()->json(['status'=>true]);
             }
-            return response()->json(['status'=>false],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+            return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
     });
 
     //Listado de sesiones
     $app->get('sessions', function () {
-        return response()->json(['status'=>true,'sessions'=>\App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get()->toArray()],200,['Access-Control-Allow-Origin'=>'http://localhost:3000']);
+        return response()->json(['status'=>true,'sessions'=>\App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get()->toArray()],200,App\Libraries\Project::get_cors());
     });
 });
 

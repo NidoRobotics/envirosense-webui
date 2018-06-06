@@ -7,14 +7,14 @@ var public_dir_dest = '../web/public/';
 var main_view_dest = '../web/resources/views/dashboard.blade.php';
 
 var folders = [
-    ['build/static',public_dir_dest+'static'],
+    ['build/static/',public_dir_dest+'static/'],
 ];
 
 var files = [
-    ['build/asset-manifest.json',public_dir_dest],
-    ['build/favicon.ico',public_dir_dest],
-    ['build/service-worker.js',public_dir_dest],
-    ['build/manifest.json',public_dir_dest],
+    ['build/asset-manifest.json',public_dir_dest+'asset-manifest.json'],
+    ['build/favicon.ico',public_dir_dest+'favicon.ico'],
+    ['build/service-worker.js',public_dir_dest+'service-worker.js'],
+    ['build/manifest.json',public_dir_dest+'manifest.json'],
     ['build/index.html',main_view_dest],
 ];
 
