@@ -1,14 +1,14 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
+Fichero de rutas web de envirosense-webui
+
+MDPS (miguel@blackmesa.es) 2016-2018
+
+NOTA:
+Esta webui SOLO puede obtener datos de la DB, no se deben realizar guardados de datos ni ningun tipo de omdificacion en
+la DB, este tipo de acciones debe realizarse siempre por medio de las funciones que expone el socket.io de envirosense-core
+No cumplir con esta directiva implicara inconsistencia en los datos y cosas terribles sucederan en las entrañas del sistema.
 */
 $app->group(['prefix' => 'api'], function () use ($app) {
     //Operaciones sobre la sesion actual/futura
@@ -25,45 +25,16 @@ $app->group(['prefix' => 'api'], function () use ($app) {
         });
 
         //Iniciar sesion
-        //parametro nombre
         $app->post('start', function (\Illuminate\Http\Request $request)    {
-            $name = $request->input('name','NONAME');
-            //dd($name);
-
-
-            //https://github.com/walkor/phpsocket.io
-
-            $response = ['status'=>false];
-            if($activeSession = \App\Session::active())
-            {
-                $response['status'] = true;
-                $response['is_new'] = false;
-                $response['session'] = $activeSession->toArray();
-            }
-            else
-            {
-                $newSession = \App\Session::create(['title'=>$name]);
-                if($newSession)
-                {
-                    $response['status'] = true;
-                    $response['is_new'] = true;
-                    $response['session'] = $newSession->toArray();
-                }
-            }
-            return response()->json($response,200,App\Libraries\Project::get_cors());
+            throw new Exception('MDPS: Metodo start POST esta deprecated, usar metodo start socket.io en su lugar, ver vista main.blade.php');
+        });
+        //Terminar sesion
+        $app->post('end', function (\Illuminate\Http\Request $request)    {
+            throw new Exception('MDPS: Metodo end POST esta deprecated, usar metodo end socket.io en su lugar, ver vista main.blade.php');
         });
 
-        //Terminar sesion
-        //parametro id de sesion
-        $app->post('end', function (\Illuminate\Http\Request $request)    {
-            $id = $request->input('id');
-            $res = false;
-            if($id && \App\Session::existsAndRunning($id))
-            {
-                \App\Session::endSession($id);
-                $res = true;
-            }
-            return response()->json(['status'=>$res],200,App\Libraries\Project::get_cors());
+        $app->post('delete', function (\Illuminate\Http\Request $request)    {
+            throw new Exception('MDPS: Metodo delete POST esta deprecated, usar metodo delete socket.io en su lugar, ver vista main.blade.php');
         });
 
         $app->post('data', function (\Illuminate\Http\Request $request)    {
@@ -113,17 +84,6 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             }
             return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
-
-        //TODO: falta migrar este endpoint al python
-        $app->post('delete', function (\Illuminate\Http\Request $request)    {
-            $id = $request->input('id');
-            if($id && ($session = \App\Session::where('id',$id)->first()))
-            {
-                $session->delete();
-                return response()->json(['status'=>true]);
-            }
-            return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
-        });
     });
 
     //Listado de sesiones
@@ -142,13 +102,8 @@ $app->get('historial', function () use ($app) {
     return view('sessions',['sesiones'=>$sesiones]);
 });
 
+#TODO: Falta implementacion, no es mas que una maqueta
 $app->get('configuracion', 'ConfigurationController@index');
-//$app->get('configuracion', function () use ($app) {
-//
-//    //$sesiones = \App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get();
-//    return view('configuracion');//,['sesiones'=>$sesiones]);
-//});
-
 
 $app->get('/', function () use ($app) {
     return view('dashboard');
