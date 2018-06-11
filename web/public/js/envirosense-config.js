@@ -7,8 +7,6 @@
 // envirosense_restart_btn
 // envirosense_status_btn
 
-var endpoint = '/restarter/';
-
 var call_restarter = function(action){
     $("#envirosense_status_label").html("envirosense-core status: cargando...");
     $.get('/restarter/'+action, function (data) {

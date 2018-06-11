@@ -1,13 +1,10 @@
 <?php
 
 use Symfony\Component\Process\Process;
-
-
-
 /*
 Fichero de rutas web de envirosense-webui
 
-MDPS (miguel@blackmesa.es) 2016-2018
+MDPS (miguel@blackmesa.es) 2018
 
 NOTA:
 Esta webui SOLO puede obtener datos de la DB, no se deben realizar guardados de datos ni ningun tipo de omdificacion en
@@ -37,10 +34,12 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             throw new Exception('MDPS: Metodo end POST esta deprecated, usar metodo end socket.io en su lugar, ver vista main.blade.php');
         });
 
+        #Eliminar sesion
         $app->post('delete', function (\Illuminate\Http\Request $request)    {
             throw new Exception('MDPS: Metodo delete POST esta deprecated, usar metodo delete socket.io en su lugar, ver vista main.blade.php');
         });
 
+        #Obtener datos de sesion
         $app->post('data', function (\Illuminate\Http\Request $request)    {
             $id = $request->input('id');
             if($id && ($session = \App\Session::where('id',$id)->first()))
@@ -51,6 +50,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
 
+        #Descargar sesion en csv
         $app->get('download/{id}', function ($id)    {
 
             set_time_limit(300);
@@ -70,6 +70,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
 
+        #descargar sesion en GEOJSON
         $app->get('geojson/{id}', function ($id)    {
 
             set_time_limit(300);
@@ -96,16 +97,19 @@ $app->group(['prefix' => 'api'], function () use ($app) {
     });
 });
 
+//pagina principal (ANTIGUA)
 $app->get('oldmain', function () use ($app) {
     return view('main');
 });
 
-$app->get('historial', function () use ($app) {
+//Listado de sesiones (ANTIGUO)
+$app->get('sesiones', function () use ($app) {
 
     $sesiones = \App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get();
     return view('sessions',['sesiones'=>$sesiones]);
 });
 
+//Acciones administrativas sobre envirosense-core
 $app->get('restarter/{action}', function ($action) use ($app) {
     set_time_limit(30);
     $valid_actions = ['start','stop','restart','status'];
@@ -139,43 +143,16 @@ $app->get('restarter/{action}', function ($action) use ($app) {
     }
 });
 
+//Ruta de pruebas
 $app->get('test', function () use ($app) {
-    set_time_limit(600);
-    //http://symfony.com/doc/current/components/process.html
-    $command = [
-        env('PROJECT_PYTHON_PATH'), //Inteprete de python
-        env('PROJECT_CKUPDATER_PATH'), //Ejecutable con ruta absoluta
-        '-d', //Activamos la depuracion
-        '-m', //Activamos la gestion automagica de supervisor
-        '/dev/ttyAMA0', //Indicamos el puerto serie al que esta conectado el CK
-        '/home/pi/Envirosense.1.0.0.BL.05062018.hex', //Indicamos el fichero de firmware con ruta absoluta
-    ];
-    $update_process = new Process($command);
-    $update_process->disableOutput();
-    $update_process->setTimeout(300);
-    //TODO: esto deberia dar la salida en tiempo real, pero no lo hace, parece un
-    //problema de configuracion y creo, que si en lugar de intentar imprimirlo por pantalla
-    //lo sacara por socketio o similar si funcionaria :)
-    //Lo importante es que el codigo funciona y el comando se llama correctamente :)
-    try
-    {
-        $update_process->run(function ($type, $buffer) {
-            printf("type:[%s] buffer:[%s]\n",$type, $buffer);
-            if (Process::ERR === $type) {
-                echo 'ERR > '.$buffer."\n";
-            } else {
-                echo 'OUT > '.$buffer."\n";
-            }
-        });
-    }
-    catch (RuntimeException $exception) {
-        echo $exception->getMessage();
-    }
+   dd('test route not in use now...');
 });
 
+//Rutas del controlador de configuración
 $app->get('configuracion', 'ConfigurationController@index');
 $app->post('configuracion/ckupdate', 'ConfigurationController@ckupdate');
 
+//Pagina principal REACT
 $app->get('/', function () use ($app) {
     return view('dashboard');
 });

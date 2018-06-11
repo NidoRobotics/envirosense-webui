@@ -45,13 +45,12 @@ injectGlobal`
   }
 `;
 /* eslint-enable no-unused-expressions */
-
+/*<Route path="/historial" component={SessionHistory} />*/
 const Main = props => (
   <main {...props}>
     <Switch>
       <Route path="/detalle/:id" component={SessionDetail} />
-      /*<Route path="/historial" component={SessionHistory} />*/
-      <Link to="/historial">Historial</Link>
+      <Route path="/historial" component={SessionHistory} />
       <Route path="/" component={SessionManager} />
     </Switch>
   </main>

@@ -1,5 +1,6 @@
 /**
  * Created by mdps on 06/06/2018.
+ * mdps@blackmesa.es
  */
 const fs = require('fs-extra')
 

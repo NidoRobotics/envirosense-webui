@@ -8,7 +8,7 @@ class Project
     {
         try {
             $http_origin = trim($_SERVER['HTTP_REFERER']);
-            if ($http_origin == "http://localhost:3000" || $http_origin == "http://local.envirosense.io/") {
+            if ($http_origin == "http://localhost:3000" || $http_origin == "http://local.envirosense.io") {
                 return ['Access-Control-Allow-Origin' => $http_origin];
             }
         }catch (Exception $e) {
