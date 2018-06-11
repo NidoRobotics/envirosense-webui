@@ -12,7 +12,7 @@
   
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/testsocketio.js"></script>
 
     <!-- Styles -->
     <style>
@@ -64,6 +64,17 @@
 <div id="app" class="flex-center position-ref full-height">
     <div class="content">
     <h1>ENVIROSENSE v{{env('PROJECT_VERSION')}}</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="text-center"><a type="button" id="startsession" class="btn btn-default" href="#">Start Session</a></div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center"><a type="button" id="endsession" class="btn btn-default" href="#">End Session</a></div>
+        </div>
+
+    </div>
+
     </div>
 </div>
 </body>

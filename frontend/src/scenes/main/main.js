@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectGlobal } from 'styled-components';
 import { normalize } from 'polished';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 
 import font from '../../constants/styles/font';
 
@@ -50,7 +50,8 @@ const Main = props => (
   <main {...props}>
     <Switch>
       <Route path="/detalle/:id" component={SessionDetail} />
-      <Route path="/historial" component={SessionHistory} />
+      /*<Route path="/historial" component={SessionHistory} />*/
+      <Link to="/historial">Historial</Link>
       <Route path="/" component={SessionManager} />
     </Switch>
   </main>

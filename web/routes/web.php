@@ -30,6 +30,9 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             $name = $request->input('name','NONAME');
             //dd($name);
 
+
+            //https://github.com/walkor/phpsocket.io
+
             $response = ['status'=>false];
             if($activeSession = \App\Session::active())
             {
@@ -111,6 +114,7 @@ $app->group(['prefix' => 'api'], function () use ($app) {
             return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
 
+        //TODO: falta migrar este endpoint al python
         $app->post('delete', function (\Illuminate\Http\Request $request)    {
             $id = $request->input('id');
             if($id && ($session = \App\Session::where('id',$id)->first()))
@@ -132,11 +136,19 @@ $app->get('oldmain', function () use ($app) {
     return view('main');
 });
 
-$app->get('sesiones', function () use ($app) {
+$app->get('historial', function () use ($app) {
 
     $sesiones = \App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get();
     return view('sessions',['sesiones'=>$sesiones]);
 });
+
+$app->get('configuracion', 'ConfigurationController@index');
+//$app->get('configuracion', function () use ($app) {
+//
+//    //$sesiones = \App\Session::where('bucket_id_end','>',0)->orderBy('id','desc')->get();
+//    return view('configuracion');//,['sesiones'=>$sesiones]);
+//});
+
 
 $app->get('/', function () use ($app) {
     return view('dashboard');
