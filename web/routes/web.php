@@ -173,8 +173,8 @@ $app->get('test', function () use ($app) {
     }
 });
 
-#TODO: Falta implementacion, no es mas que una maqueta
 $app->get('configuracion', 'ConfigurationController@index');
+$app->post('configuracion/ckupdate', 'ConfigurationController@ckupdate');
 
 $app->get('/', function () use ($app) {
     return view('dashboard');

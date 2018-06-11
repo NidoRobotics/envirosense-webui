@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/envirosense-config.js"></script>
+
     <style>
         table tr td:last-child {
             text-align: right;
@@ -29,21 +31,21 @@
                     <h3 class="panel-title">envirosense-core</h3>
                 </div>
                 <div class="panel-body">
-                    <p class="help-block">
-                    envirosense-core esta corriendo en el sistema.
+                    <p class="help-block" id="envirosense_status_label">
+                    {{--envirosense-core esta corriendo en el sistema.--}}
                     </p>
-                    <button type="submit" class="btn btn-info">
+                    <button id="envirosense_stop_btn" type="submit" class="btn btn-warning">
                         Parar
                     </button>
-                    <button type="submit" class="btn btn-info">
+                    <button id="envirosense_start_btn" type="submit" class="btn btn-success">
                         Iniciar
                     </button>
-                    <button type="submit" class="btn btn-info">
+                    <button id="envirosense_restart_btn" type="submit" class="btn btn-info">
                         Reiniciar
                     </button>
-                    {{--<p class="help-block">--}}
-                    {{--Example block-level help text here.--}}
-                    {{--</p>--}}
+                    {{--<button id="envirosense_status_btn" type="submit" class="btn btn-default">--}}
+                        {{--Obtener estado--}}
+                    {{--</button>--}}
                 </div>
             </div>
         </div>
@@ -54,25 +56,26 @@
                     <h3 class="panel-title">Actualizar firmware envirosense-chipkit</h3>
                 </div>
                 <div class="panel-body">
-                    <form role="form" class="form">
+                    <p class="help-block" id="firmwareupdate_status_label"></p>
+                    <form id="ckupdatefrm" role="form" class="form" enctype="multipart/form-data" method="post">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">
+                            <label for="device">
                                 Puerto serie
                             </label>
-                            <input type="text" class="form-control" id="device" value="/tty/AMA0"/>
+                            <input type="text" class="form-control" id="device"  name="device" value="/dev/ttyAMA0"/>
                         </div>
                         <div class="form-group">
 
-                            <label for="exampleInputFile">
+                            <label for="firmware">
                                 Firmware:
                             </label>
-                            <input type="file" id="firmware" />
+                            <input type="file" name="firmware" id="firmware" />
                             {{--<p class="help-block">--}}
                                 {{--Example block-level help text here.--}}
                             {{--</p>--}}
                         </div>
-                        <button type="submit" class="btn btn-info">
-                            Procesar
+                        <button type="submit" class="btn btn-success">
+                            Iniciar
                         </button>
                     </form>
                 </div>
@@ -85,8 +88,8 @@
                     <h3 class="panel-title">Actualizar envirosense-core</h3>
                 </div>
                 <div class="panel-body">
-                        <button type="submit" class="btn btn-info">
-                            Procesar
+                        <button type="submit" class="btn btn-success" disabled>
+                            Iniciar
                         </button>
                     {{--<p class="help-block">--}}
                     {{--Example block-level help text here.--}}
@@ -101,8 +104,8 @@
                     <h3 class="panel-title">Actualizar envirosense-webui</h3>
                 </div>
                 <div class="panel-body">
-                    <button type="submit" class="btn btn-info">
-                        Procesar
+                    <button type="submit" class="btn btn-success" disabled>
+                        Iniciar
                     </button>
                     {{--<p class="help-block">--}}
                     {{--Example block-level help text here.--}}
@@ -115,32 +118,6 @@
     <div class="row">
         <div class="text-center"><a type="button" class="btn btn-default" href="/">Volver</a></div>
     </div>
-    {{--<div class="row table-responsive">--}}
-        {{--<table class="table table-striped">--}}
-            {{--<tr>--}}
-                {{--<th>ID</th>--}}
-                {{--<th>Nombre</th>--}}
-                {{--<th>Fecha</th>--}}
-                {{--<th>Puntos</th>--}}
-                {{--<th width="30%">Acciones</th>--}}
-            {{--</tr>--}}
-                {{--@foreach($sesiones as $s)--}}
-                {{--<tr>--}}
-                    {{--<td>{{$s->id}}</td>--}}
-                    {{--<td>{{$s->title}}</td>--}}
-                    {{--<td>{{$s->created_at->format('d/m/Y H:i')}}</td>--}}
-                    {{--<td>{{1+($s->bucket_id_end - $s->bucket_id_start)}}</td>--}}
-                    {{--<td>--}}
-                        {{--<div class="btn-group" role="group">--}}
-                            {{--<a type="button" class="btn btn-default" href="/api/session/download/{{$s->id}}"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> CSV</a>--}}
-                            {{--<a type="button" class="btn btn-default" href="/api/session/geojson/{{$s->id}}"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> GeoJSON</a>--}}
-                            {{--<a type="button" class="btn btn-default" disabled><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Eliminar</a>--}}
-                        {{--</div>--}}
-                    {{--</td>--}}
-                {{--</tr>--}}
-                {{--@endforeach--}}
-        {{--</table>--}}
-    {{--</div>--}}
 </div>
 
 </body>
