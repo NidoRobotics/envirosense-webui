@@ -46,14 +46,14 @@ $( document ).ready(function() {
 
     });
 
-// $('#deletesession').click(function(e){
-//     socket.emit('delete_session', 'ID_DE_SESION', function (data) {
-//         // #Datos de la sesion iniciada
-//         console.log("delete_session")
-//         console.log(data)
-//     });
-//     e.preventDefault();
-// });
+$('#deletesession').click(function(e){
+    socket.emit('delete_session',{'id': '1'}, function (data) {
+        // #Datos de la sesion iniciada
+        console.log("delete_session")
+        console.log(data)
+    });
+    e.preventDefault();
+});
 });
 
 

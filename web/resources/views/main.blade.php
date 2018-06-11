@@ -66,13 +66,15 @@
     <h1>ENVIROSENSE v{{env('PROJECT_VERSION')}}</h1>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="text-center"><a type="button" id="startsession" class="btn btn-default" href="#">Start Session</a></div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="text-center"><a type="button" id="endsession" class="btn btn-default" href="#">End Session</a></div>
         </div>
-
+        <div class="col-md-3">
+            <div class="text-center"><a type="button" id="deletesession" class="btn btn-default" href="#">Delete Session</a></div>
+        </div>
     </div>
 
     </div>
