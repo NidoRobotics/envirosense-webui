@@ -34,7 +34,7 @@ export default compose(
   shouldUpdate(checkPropsChange),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
-    componentWillMount() {
+    componentDidMount() {
       this.props.activeFetch();
     },
   })
