@@ -30,7 +30,6 @@ export default action$ =>
           )
         )
         .catch(error => {
-          console.log(error);
           return Observable.concat(
             Observable.of(AC.session.create.send.error(error)),
             Observable.of(AC.session.create.send.start(payload)).delay(

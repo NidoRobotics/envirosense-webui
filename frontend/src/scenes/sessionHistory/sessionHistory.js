@@ -92,7 +92,7 @@ const SessionHistory = ({
               <div>
                 <Button href={`/api/session/download/${row.id}`}>CSV</Button>
                 <Button href={`/api/session/geojson/${row.id}`}>geoJSON</Button>
-                <Button danger href={`/api/session/delete/${row.id}`}>Eliminar</Button>
+                <Button danger disabled>Eliminar</Button>
               </div>
             </StyledRow>
           ))}
