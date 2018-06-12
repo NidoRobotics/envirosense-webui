@@ -16,6 +16,16 @@ class ConfigurationController extends Controller
         return view('configuracion');//,['sesiones'=>$sesiones]);
     }
 
+    public function coreupdate()
+    {
+        return 'update core';
+    }
+
+    public function webuiupdate()
+    {
+        return 'update webui';
+    }
+
     public function ckupdate(Request $request)
     {
         set_time_limit(600);
