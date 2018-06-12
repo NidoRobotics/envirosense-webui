@@ -8,10 +8,6 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <style>
-        /*table tr td:last-child {*/
-            /*white-space: nowrap;*/
-            /*width: 10%;*/
-        /*}*/
         table tr td:last-child {
             text-align: right;
         }
@@ -21,7 +17,7 @@
 <body>
 
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top" style="background: #041b25;border-bottom: 2px solid #0f5370;">
-    <a class="navbar-brand" href="/">Envirosense 1.0 - Sesiones</a>
+    <a class="navbar-brand" href="/">Envirosense {{env('PROJECT_VERSION')}} - Sesiones</a>
 </nav>
 
 <div class="container">
@@ -39,7 +35,7 @@
                     <td>{{$s->id}}</td>
                     <td>{{$s->title}}</td>
                     <td>{{$s->created_at->format('d/m/Y H:i')}}</td>
-                    <td>{{$s->bucket_id_end - $s->bucket_id_start}}</td>
+                    <td>{{1+($s->bucket_id_end - $s->bucket_id_start)}}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <a type="button" class="btn btn-default" href="/api/session/download/{{$s->id}}"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> CSV</a>
@@ -50,7 +46,7 @@
                 </tr>
                 @endforeach
         </table>
-        <div class="text-center"><a href="/">Volver</a></div>
+        <div class="text-center"><a type="button" class="btn btn-default" href="/">Volver</a></div>
     </div>
 </div>
 

@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ENVIROSENSE v0.0.1</title>
+    <title>ENVIROSENSE v{{env('PROJECT_VERSION')}}</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
   
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/testsocketio.js"></script>
 
     <!-- Styles -->
     <style>
@@ -63,7 +63,20 @@
 <body data-socketio="{{env('SOCKETIO_URL')}}" data-socketio-path="{{env('SOCKETIO_PATH','')}}">
 <div id="app" class="flex-center position-ref full-height">
     <div class="content">
-    <h1>ENVIROSENSE v0.0.1</h1>
+    <h1>ENVIROSENSE v{{env('PROJECT_VERSION')}}</h1>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="text-center"><a type="button" id="startsession" class="btn btn-default" href="#">Start Session</a></div>
+        </div>
+        <div class="col-md-3">
+            <div class="text-center"><a type="button" id="endsession" class="btn btn-default" href="#">End Session</a></div>
+        </div>
+        <div class="col-md-3">
+            <div class="text-center"><a type="button" id="deletesession" class="btn btn-default" href="#">Delete Session</a></div>
+        </div>
+    </div>
+
     </div>
 </div>
 </body>
