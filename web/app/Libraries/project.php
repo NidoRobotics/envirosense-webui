@@ -35,7 +35,7 @@ class Project
             $pre_commit = self::gitlastcommit(env('WEBUI_PATH'));
             foreach($cmds as $cmd)
             {
-//                $outs[] = shell_exec($cmd);
+                $outs[] = shell_exec($cmd);
             }
             $post_commit = self::gitlastcommit(env('WEBUI_PATH'));
 //        dd($cmds,$outs);
