@@ -6,7 +6,7 @@ export default createActions({
   CREATE: {
     SEND: {
       START: name => ({
-        name: name || `Sin título ${toTimeString(Date.now())}`,
+        name: name || ``,
       }),
       SUCCESS: response => response,
       ERROR: error => error,
