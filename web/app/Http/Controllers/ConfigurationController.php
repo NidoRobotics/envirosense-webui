@@ -23,7 +23,49 @@ class ConfigurationController extends Controller
 
     public function webuiupdate()
     {
+//        dd('in1');
+        $this->gitpull(env('WEBUI_PATH'));
+
+
         return 'update webui';
+    }
+
+    //TODO: Esto se queda a medio implementar pero parece que funciona, vamos al RPC
+    //primero y luego voelvemos aqui.
+    private function gitpull($repo_path, $branch='develop', $remote='origin', $reset=true)
+    {
+        $cmds = [];
+        $outs = [];
+
+//        $cmds[] = sprintf("cd %s 2>&1", $repo_path);
+//        if($reset) {
+//            $cmds[] = sprintf("%s reset --hard HEAD 2>&1", env('PROJECT_GIT_PATH'));
+//        }
+//        $cmds[] = sprintf("%s pull origin %s 2>&1", env('PROJECT_GIT_PATH'), $branch);
+        $cmds[] = sprintf("%s -C %s status 2>&1", env('PROJECT_GIT_PATH'), $repo_path);
+
+        foreach($cmds as $cmd)
+        {
+            $outs[] = shell_exec($cmd);
+        }
+        dd($cmds,$outs);
+
+//        try
+//        {
+//            $output = shell_exec($command);
+
+            //            $update_process->run();
+//            if($update_process->isSuccessful()){
+//                return response()->json(['status'=>true,'output'=>$update_process->getOutput()],200,Project::get_cors());
+//            }
+//            else
+//            {
+//                return response()->json(['status'=>false,'output'=>$update_process->getOutput()],200,Project::get_cors());
+//            }
+//        }
+//        catch (RuntimeException $exception) {
+//            return response()->json(['status'=>false,'error'=>$exception->getMessage()],200,Project::get_cors());
+//        }
     }
 
     public function ckupdate(Request $request)

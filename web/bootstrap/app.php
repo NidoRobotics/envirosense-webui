@@ -48,6 +48,11 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
+if (!class_exists('EnvirosenseRPC')) {
+    class_alias('App\Facades\EnvirosenseRPC', 'EnvirosenseRPC');
+}
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -77,6 +82,7 @@ $app->singleton(
 | totally optional, so you are not required to uncomment this line.
 |
 */
+$app->register(App\Providers\RPCServiceProvider::class);
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);

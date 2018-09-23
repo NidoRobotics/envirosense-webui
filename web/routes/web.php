@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\Process\Process;
+use EnvirosenseRPC;
 /*
 Fichero de rutas web de envirosense-webui
 
@@ -27,6 +28,13 @@ $app->group(['prefix' => 'api'], function () use ($app) {
 
         //Iniciar sesion
         $app->post('start', function (\Illuminate\Http\Request $request)    {
+
+
+            //    dd(EnvirosenseRPC::send("end_session"));
+//    dd(EnvirosenseRPC::send("start_session", ['title'=>'RPC Title in inglish']));
+
+
+
             throw new Exception('MDPS: Metodo start POST esta deprecated, usar metodo start socket.io en su lugar, ver vista main.blade.php');
         });
         //Terminar sesion
@@ -145,14 +153,15 @@ $app->get('restarter/{action}', function ($action) use ($app) {
 
 //Ruta de pruebas
 $app->get('test', function () use ($app) {
-   dd('test route not in use now...');
+    return 'test route disabled';
+    //    dd(EnvirosenseRPC::send("end_session"));
+//    dd(EnvirosenseRPC::send("start_session", ['title'=>'RPC Title in inglish']));
 });
 
 //Rutas del controlador de configuración
 $app->get('configuracion', 'ConfigurationController@index');
 $app->post('configuracion/ckupdate', 'ConfigurationController@ckupdate');
-$app->post('configuracion/coreupdate', 'ConfigurationController@coreupdate');
-$app->post('configuracion/webuiupdate', 'ConfigurationController@webuiupdate');
+$app->get('configuracion/webupdate', 'ConfigurationController@webuiupdate');
 
 //Pagina principal REACT
 $app->get('/', function () use ($app) {
