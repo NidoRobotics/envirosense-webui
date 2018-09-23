@@ -19,6 +19,51 @@ var call_restarter = function(action){
 };
 
 $( document ).ready(function() {
+
+    //WEBUI pull from github
+    $("#webuiupdatefrm").on("submit", function(e){
+        e.preventDefault();
+        console.log("webuiupdatefrm on submit")
+        $("#webuiupdate_status_label").html("Actualizando interfaz web, por favor no cierre la ventana hasta terminar.");
+        $("#webuiupdatefrm button").prop('disabled', true);
+        $.ajax({
+            url: "/configuracion/webupdate",
+            type: "post",
+            dataType: "json",
+            data: {},
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+            .done(function(res){
+                console.log(res)
+                // console.log(res.status)
+                if(res.status == true)
+                {
+                    if(res.eq == true)
+                    {
+                        $("#webuiupdate_status_label").html("envirosense-webui: El software ya está en la última versión "+res.to);
+                    }
+                    else
+                    {
+                        $("#webuiupdate_status_label").html("envirosense-webui: actualizado con exito "+res.from+" > "+res.to);
+                        // setTimeout(function(){ location.reload(); }, 2000);
+                    }
+                }
+                else
+                {
+                    $("#webuiupdate_status_label").html("envirosense-webui: Error actualizando");
+                }
+            })
+            .fail(function(){
+                $("#webuiupdate_status_label").html("envirosense-webui: Error en la petición");
+                console.log("error en la peticion");
+            })
+            .always(function() {
+                $("#webuiupdatefrm button").prop('disabled', false);
+            });
+    });
+
     //firmwareupdate_status_label
     $("#ckupdatefrm").on("submit", function(e){
         e.preventDefault();

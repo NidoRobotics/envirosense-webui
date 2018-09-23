@@ -172,7 +172,7 @@ $app->get('test', function () use ($app) {
 //Rutas del controlador de configuración
 $app->get('configuracion', 'ConfigurationController@index');
 $app->post('configuracion/ckupdate', 'ConfigurationController@ckupdate');
-$app->get('configuracion/webupdate', 'ConfigurationController@webuiupdate');
+$app->post('configuracion/webupdate', 'ConfigurationController@webuiupdate');
 
 //Pagina principal REACT
 $app->get('/', function () use ($app) {

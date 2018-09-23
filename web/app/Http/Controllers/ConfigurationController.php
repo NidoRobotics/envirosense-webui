@@ -23,36 +23,13 @@ class ConfigurationController extends Controller
 
     public function webuiupdate()
     {
-//        dd('in1');
-        return $this->gitpull(env('WEBUI_PATH'),env('WEBUI_BRANCH'));
-
-
-//        return 'update webui';
-    }
-
-    //TODO: Esto se queda a medio implementar pero parece que funciona, vamos al RPC
-    //primero y luego voelvemos aqui.
-    private function gitpull($repo_path, $branch='master', $remote='origin', $reset=true)
-    {
-        $cmds = [];
-        $outs = [];
-        if($reset) {
-            $cmds[] = sprintf("%s -C %s clean -fd 2>&1", env('PROJECT_GIT_PATH'), $repo_path);
-            $cmds[] = sprintf("%s -C %s reset --hard HEAD 2>&1", env('PROJECT_GIT_PATH'), $repo_path);
-        }
-        $cmds[] = sprintf("%s -C %s pull %s %s 2>&1", env('PROJECT_GIT_PATH'), $repo_path, $remote, $branch);
-        try
+        $res = Project::gitpull(env('WEBUI_PATH'),env('WEBUI_BRANCH'));
+        if($res['status'])
         {
-            foreach($cmds as $cmd)
-            {
-                $outs[] = shell_exec($cmd);
-            }
-//        dd($cmds,$outs);
-            return response()->json(['status'=>true,'output'=>$outs,'commands'=>$cmds],200,Project::get_cors());
+            $response = ['status'=>true,'from'=>$res['precommit'],'to'=>$res['postcommit'],'eq'=>($res['precommit']==$res['postcommit']?true:false)];
         }
-        catch (RuntimeException $exception) {
-            return response()->json(['status'=>false,'error'=>$exception->getMessage()],200,Project::get_cors());
-        }
+        return response()->json($response,200,Project::get_cors());
+//        return 'update webui';
     }
 
     public function ckupdate(Request $request)

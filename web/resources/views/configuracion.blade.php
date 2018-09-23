@@ -101,12 +101,18 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Actualizar envirosense-webui</h3>
+                    <h3 class="panel-title">Actualizar envirosense-webui ({{\App\Libraries\Project::gitlastcommit(env('WEBUI_PATH'))}})</h3>
                 </div>
                 <div class="panel-body">
-                    <button type="submit" class="btn btn-success" disabled>
-                        Iniciar
-                    </button>
+                    <p class="help-block">
+                        <strong>GitHub:</strong> {{env('WEBUI_GITHUB_URL')}}
+                    </p>
+                    <p class="help-block" id="webuiupdate_status_label">Pulse el botón iniciar para actualizar de la rama <strong>{{env('WEBUI_BRANCH')}}</strong></p>
+                    <form id="webuiupdatefrm" role="form" class="form" enctype="multipart/form-data" method="post">
+                        <button type="submit" class="btn btn-success">
+                            Iniciar
+                        </button>
+                    </form>
                     {{--<p class="help-block">--}}
                     {{--Example block-level help text here.--}}
                     {{--</p>--}}
