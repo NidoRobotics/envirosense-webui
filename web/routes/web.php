@@ -29,22 +29,33 @@ $app->group(['prefix' => 'api'], function () use ($app) {
         //Iniciar sesion
         $app->post('start', function (\Illuminate\Http\Request $request)    {
 
-
-            //    dd(EnvirosenseRPC::send("end_session"));
-//    dd(EnvirosenseRPC::send("start_session", ['title'=>'RPC Title in inglish']));
-
-
-
-            throw new Exception('MDPS: Metodo start POST esta deprecated, usar metodo start socket.io en su lugar, ver vista main.blade.php');
+            $name = $request->input('name',false);
+            if($name)
+            {
+                $res = EnvirosenseRPC::send("start_session", ['title'=>$name]);
+            }
+            else
+            {
+                $res = EnvirosenseRPC::send("start_session");
+            }
+            return response()->json($res,200,App\Libraries\Project::get_cors());
         });
         //Terminar sesion
         $app->post('end', function (\Illuminate\Http\Request $request)    {
-            throw new Exception('MDPS: Metodo end POST esta deprecated, usar metodo end socket.io en su lugar, ver vista main.blade.php');
+            $res = EnvirosenseRPC::send("end_session");
+            return response()->json($res,200,App\Libraries\Project::get_cors());
         });
 
         #Eliminar sesion
         $app->post('delete', function (\Illuminate\Http\Request $request)    {
-            throw new Exception('MDPS: Metodo delete POST esta deprecated, usar metodo delete socket.io en su lugar, ver vista main.blade.php');
+            $id = $request->input('id',false);
+            if($id)
+            {
+                $res = EnvirosenseRPC::send("delete_session", ['id'=>$id]);
+                return response()->json($res,200,App\Libraries\Project::get_cors());
+
+            }
+            return response()->json(['status'=>false],200,App\Libraries\Project::get_cors());
         });
 
         #Obtener datos de sesion
