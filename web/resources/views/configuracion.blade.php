@@ -9,12 +9,12 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/envirosense-config.js"></script>
 
-    <style>
-        table tr td:last-child {
-            text-align: right;
-        }
+    {{--<style>--}}
+        {{--table tr td:last-child {--}}
+            {{--text-align: center;--}}
+        {{--}--}}
 
-    </style>
+    {{--</style>--}}
 </head>
 <body>
 
@@ -53,7 +53,7 @@
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Actualizar firmware envirosense-chipkit</h3>
+                    <h3 class="panel-title">Actualizar firmware envirosense-chipkit ({{$currentversion}})</h3>
                 </div>
                 <div class="panel-body">
                     <p class="help-block" id="firmwareupdate_status_label"></p>
@@ -78,6 +78,35 @@
                             Iniciar
                         </button>
                     </form>
+                    <hr />
+
+                    @if($ckfw)
+                        <table id="localfwtable" class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th scope="col">Version local del firmware</th>
+                                <th scope="col">Actualizar</th>
+                                {{--<th scope="col">Descargar</th>--}}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($ckfw as $fw)
+                                <tr>
+                                    <td>{{basename($fw)}}</td>
+                                    <td scope="row">
+                                        <a href="#" class="fwupdatelink" data-path="{{$fw}}">
+                                            <span class="glyphicon glyphicon-flash"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="alert alert-warning" role="alert">
+                            No se ha encontrado niguna version local disponible.
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

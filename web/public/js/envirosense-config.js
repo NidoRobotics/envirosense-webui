@@ -18,6 +18,41 @@ var call_restarter = function(action){
     });
 };
 
+var update_chipkit = function(formData){
+    console.log("update_chipkit()")
+    console.log(formData)
+
+    $("#firmwareupdate_status_label").html("Actualizando firmware, por favor no cierre la ventana hasta terminar.");
+    $("form :input").attr("disabled","disabled");
+    $.ajax({
+        url: "/configuracion/ckupdate",
+        type: "post",
+        dataType: "json",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false
+    })
+        .done(function(res){
+            console.log(res)
+            if(res.status == true)
+            {
+                $("#firmwareupdate_status_label").html("envirosense-chipkit: Firmware actualizado con exito");
+            }
+            else
+            {
+                $("#firmwareupdate_status_label").html("envirosense-chipkit: Error actualizando firmware");
+            }
+        })
+        .fail(function() {
+            $("#firmwareupdate_status_label").html("envirosense-chipkit: Error en la petición");
+            console.log("error en la peticion");
+        })
+        .always(function(){
+            $("form :input").removeAttr('disabled')
+        });
+};
+
 $( document ).ready(function() {
 
     //WEBUI pull from github
@@ -25,7 +60,9 @@ $( document ).ready(function() {
         e.preventDefault();
         console.log("webuiupdatefrm on submit")
         $("#webuiupdate_status_label").html("Actualizando interfaz web, por favor no cierre la ventana hasta terminar.");
-        $("#webuiupdatefrm button").prop('disabled', true);
+        // $("#webuiupdatefrm button").prop('disabled', true);
+        $("form :input").attr("disabled","disabled");
+
         $.ajax({
             url: "/configuracion/webupdate",
             type: "post",
@@ -60,42 +97,27 @@ $( document ).ready(function() {
                 console.log("error en la peticion");
             })
             .always(function() {
-                $("#webuiupdatefrm button").prop('disabled', false);
+                // $("#webuiupdatefrm button").prop('disabled', false);
+                $("form :input").removeAttr('disabled')
             });
     });
 
-    //firmwareupdate_status_label
+    $("table#localfwtable .fwupdatelink").on("click", function(e){
+        e.preventDefault();
+        console.log("fwupdatelink on click")
+        // console.log($(this).data('path'))
+        var formData = new FormData();
+        formData.append('device',$("input#device").val());
+        formData.append('localfw',true);
+        formData.append('local_fw_path',$(this).data('path'));
+        update_chipkit(formData);
+    });
+
     $("#ckupdatefrm").on("submit", function(e){
         e.preventDefault();
         console.log("ckupdatefrm on submit")
-        $("#firmwareupdate_status_label").html("Actualizando firmware, por favor no cierre la ventana hasta terminar.");
         var formData = new FormData(document.getElementById("ckupdatefrm"));
-        // console.log(formData)
-        $.ajax({
-            url: "/configuracion/ckupdate",
-            type: "post",
-            dataType: "json",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        })
-            .done(function(res){
-                // console.log(res)
-                // console.log(res.status)
-                if(res.status == true)
-                {
-                    $("#firmwareupdate_status_label").html("envirosense-chipkit: Firmware actualizado con exito");
-                }
-                else
-                {
-                    $("#firmwareupdate_status_label").html("envirosense-chipkit: Error actualizando firmware");
-                }
-            })
-            .fail(function(){
-                $("#firmwareupdate_status_label").html("envirosense-chipkit: Error en la petición");
-                console.log("error en la peticion");
-            });
+        update_chipkit(formData);
     });
 
     //START

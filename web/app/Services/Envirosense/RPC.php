@@ -56,13 +56,24 @@ class RPC
     public function send($action,$data=[])
     {
         $response = $this->_query(['cmd'=>$action,'data'=>$data]);
+
+//        dd($response);
+
         if($response = json_decode($response,TRUE))
         {
             if(isset($response['status']))
             {
                 if(preg_match('/ok/i',$response['status']))
                 {
-                    return json_decode($response['data'],TRUE);
+                    if( ($parsed_response = json_decode($response['data'],TRUE) != NULL) )
+                    {
+                        return json_decode($response['data'],TRUE);
+                    }
+                    else
+                    {
+                        return $response['data'];
+                    }
+
                 }
             }
         }
